@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Cyber-Safety Dark Pattern Detector",
+  "version": "1.0",
+  "description": "Scans e-commerce checkouts for deceptive UI and hidden fees using Gemini AI.",
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://*.app.github.dev/*",
+    "<all_urls>"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
+}
