@@ -4,66 +4,134 @@
   <meta charset="utf-8">
   <style>
     body {
-      width: 320px;
+      width: 360px;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       padding: 14px;
       margin: 0;
       background-color: #f8fafc;
       color: #0f172a;
     }
-    .header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
-    h3 { margin: 0; font-size: 15px; color: #0f172a; }
-    button {
-      width: 100%;
-      padding: 10px;
-      background: #2563eb;
-      color: white;
+    .nav-tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 8px 4px;
+      background: #e2e8f0;
       border: none;
       border-radius: 6px;
+      font-size: 11px;
       font-weight: 600;
-      font-size: 13px;
+      color: #475569;
       cursor: pointer;
-      transition: background 0.2s;
     }
-    button:hover { background: #1d4ed8; }
-    #status { margin-top: 10px; font-size: 12px; color: #64748b; text-align: center; }
-    #results { margin-top: 10px; }
-    .card-danger {
-      background: #fef2f2;
-      border: 1px solid #fecaca;
-      border-left: 4px solid #ef4444;
-      padding: 10px;
-      border-radius: 6px;
-      font-size: 12px;
+    .tab-btn.active {
+      background: #2563eb;
+      color: #ffffff;
     }
-    .card-safe {
-      background: #f0fdf4;
-      border: 1px solid #bbf7d0;
-      border-left: 4px solid #22c55e;
-      padding: 10px;
-      border-radius: 6px;
-      font-size: 12px;
-      color: #15803d;
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    
+    /* Form Styles */
+    .form-group { margin-bottom: 8px; }
+    label { font-size: 11px; font-weight: 600; color: #475569; }
+    input[type="text"], textarea, select {
+      width: 100%; box-sizing: border-box; padding: 6px 8px;
+      border: 1px solid #cbd5e1; border-radius: 6px; font-size: 12px; margin-top: 4px;
     }
-    .badge {
-      display: inline-block;
-      padding: 2px 6px;
-      background: #ef4444;
-      color: white;
-      font-weight: bold;
-      border-radius: 4px;
-      font-size: 10px;
-      margin-bottom: 4px;
+    button.action-btn {
+      width: 100%; padding: 8px; background: #2563eb; color: white; border: none;
+      border-radius: 6px; font-weight: 600; font-size: 12px; cursor: pointer; margin-top: 6px;
+    }
+    .toggle-row {
+      display: flex; align-items: center; justify-content: space-between;
+      background: #ffffff; padding: 8px 10px; border-radius: 6px;
+      border: 1px solid #e2e8f0; margin-bottom: 10px;
+    }
+    .switch { position: relative; display: inline-block; width: 34px; height: 18px; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #cbd5e1; transition: .3s; border-radius: 20px;
+    }
+    .slider:before {
+      position: absolute; content: ""; height: 12px; width: 12px; left: 3px; bottom: 3px;
+      background-color: white; transition: .3s; border-radius: 50%;
+    }
+    input:checked + .slider { background-color: #2563eb; }
+    input:checked + .slider:before { transform: translateX(16px); }
+
+    #status { margin-top: 8px; font-size: 11px; color: #64748b; text-align: center; }
+    #results { margin-top: 8px; }
+    .card { padding: 8px 10px; border-radius: 6px; font-size: 11px; margin-bottom: 6px; }
+    .card-danger { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; }
+    .card-safe { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; }
+    
+    /* Community List */
+    .community-item {
+      background: #ffffff; border: 1px solid #e2e8f0; padding: 8px; border-radius: 6px; margin-bottom: 6px;
+    }
+    .community-title { font-size: 12px; font-weight: 700; color: #0f172a; }
+    .community-meta { font-size: 10px; color: #64748b; margin-top: 2px; }
+    .vote-btns { display: flex; gap: 8px; margin-top: 6px; }
+    .vote-btn {
+      padding: 3px 8px; border: 1px solid #cbd5e1; background: #f8fafc;
+      border-radius: 4px; font-size: 10px; cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <div class="header">
-    <h3>🛡️ Cyber-Safety Dark Pattern Detector</h3>
+  <div class="nav-tabs">
+    <button class="tab-btn active" data-tab="tab-scan">🔍 Detector</button>
+    <button class="tab-btn" data-tab="tab-report">🚩 Report UI</button>
+    <button class="tab-btn" data-tab="tab-index">📊 Community Index</button>
   </div>
-  <button id="scanBtn">🔍 Scan Page with AI</button>
-  <div id="status">Ready to scan checkout page</div>
-  <div id="results"></div>
+
+  <!-- Tab 1: AI Scanner -->
+  <div id="tab-scan" class="tab-content active">
+    <div class="toggle-row">
+      <span style="font-size: 11px; font-weight: 600;">⚡ Auto-Scan Webpages</span>
+      <label class="switch">
+        <input type="checkbox" id="autoScanToggle" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+    <button id="scanBtn" class="action-btn">Scan Current Page</button>
+    <div id="status">Ready</div>
+    <div id="results"></div>
+  </div>
+
+  <!-- Tab 2: Consumer Report Submission -->
+  <div id="tab-report" class="tab-content">
+    <div class="form-group">
+      <label>Target URL</label>
+      <input type="text" id="reportUrl" placeholder="https://example.com/checkout">
+    </div>
+    <div class="form-group">
+      <label>Deceptive Pattern Category</label>
+      <select id="reportCategory">
+        <option value="hidden_fees">Hidden / Sneaky Fee</option>
+        <option value="prechecked_box">Pre-checked Subscription Box</option>
+        <option value="roach_motel">Hard to Cancel (Roach Motel)</option>
+        <option value="false_urgency">Fake Urgency / Countdown</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Description & Context</label>
+      <textarea id="reportDesc" rows="3" placeholder="Describe where extra fees or deceptive checkboxes appear..."></textarea>
+    </div>
+    <button id="submitReportBtn" class="action-btn">Submit Consumer Report</button>
+    <div id="reportStatus" style="font-size: 11px; text-align: center; margin-top: 6px;"></div>
+  </div>
+
+  <!-- Tab 3: Community Index & Voting -->
+  <div id="tab-index" class="tab-content">
+    <div id="communityList">
+      <div style="font-size: 11px; color: #64748b; text-align: center;">Loading flagged sites...</div>
+    </div>
+  </div>
 
   <script src="popup.js"></script>
 </body>

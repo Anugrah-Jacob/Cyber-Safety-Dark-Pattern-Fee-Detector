@@ -1,0 +1,35 @@
+#dark-pattern-overlay-badge {
+  position: fixed !important;
+  top: 16px !important;
+  left: 16px !important;
+  z-index: 2147483647 !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border: 2px solid #2563eb !important;
+  border-radius: 20px !important;
+  padding: 8px 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25) !important;
+  cursor: pointer !important;
+  user-select: none !important;
+}
+
+#dark-pattern-overlay-badge .score-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #94a3b8;
+}
+
+#dark-pattern-overlay-badge.score-safe .score-dot { background: #22c55e; }
+#dark-pattern-overlay-badge.score-warn .score-dot { background: #f59e0b; }
+#dark-pattern-overlay-badge.score-danger .score-dot { background: #ef4444; }
+
+#dark-pattern-overlay-badge .score-text {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.3px !important;
+}
